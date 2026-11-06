@@ -14,7 +14,7 @@ public class Cliente {
         this.nombre = nombre;
         this.correo = correo;
         this.telefono = telefono;
-        this.contraseña = contrasenia;
+        this.contrasenia = contrasenia;
     }
 
     public String getId() {
