@@ -1,4 +1,6 @@
-package edu.hoteluq.model;
+package edu.hoteluq.modelo;
+
+import java.time.LocalDate;
 
 public class Habitacion {
 
@@ -7,7 +9,6 @@ public class Habitacion {
     private EstadoHabitacion estado;
 
     public Habitacion(String numero, TipoHabitacion tipo, EstadoHabitacion estado) {
-
         this.numero = numero;
         this.tipo = tipo;
         this.estado = estado;
@@ -25,8 +26,12 @@ public class Habitacion {
         return estado;
     }
 
-    public void cambiarEstado(EstadoHabitacion estado){
+    public boolean estaDisponible(){
+        return estado == EstadoHabitacion.DISPONIBLE;
+    }
 
+    public void cambiarEstado(EstadoHabitacion estado){
         this.estado = estado;
     }
+
 }

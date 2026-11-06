@@ -1,0 +1,42 @@
+package edu.hoteluq.modelo;
+
+public class TarjetaVirtual {
+
+    private String numero;
+    private double saldo;
+    private boolean activa;
+
+    public TarjetaVirtual(String numero, double saldo, boolean activa) {
+        this.numero = numero;
+        this.saldo = saldo;
+        this.activa = activa;
+    }
+
+    public String getNumero() {
+        return numero;
+    }
+
+    public double getSaldo() {
+        return saldo;
+    }
+
+    public boolean isActiva() {
+        return activa;
+    }
+
+    public void pagar(double valor){
+        saldo -= valor;
+    }
+
+    public void recargar(double valor){
+        saldo += valor;
+    }
+
+    public void reembolsar(double valor){
+        saldo += valor;
+    }
+
+    public double consultarSaldo(){
+        return saldo;
+    }
+}

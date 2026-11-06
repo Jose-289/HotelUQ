@@ -1,4 +1,4 @@
-package edu.hoteluq.model;
+package edu.hoteluq.modelo;
 
 import java.time.LocalDate;
 
@@ -13,7 +13,6 @@ public class Promocion {
 
     public Promocion(String id, String nombre, String descripcion,  double porcentajeDescuento,
                      LocalDate fechaInicio, LocalDate fechaFin) {
-
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
@@ -44,5 +43,13 @@ public class Promocion {
 
     public LocalDate getFechaFin() {
         return fechaFin;
+    }
+
+    public boolean esAplicable(Reserva reserva){
+        return true;
+    }
+
+    public double calcularDescuento(double valor){
+        return valor * porcentajeDescuento / 100;
     }
 }

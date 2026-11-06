@@ -1,4 +1,4 @@
-package edu.hoteluq.model;
+package edu.hoteluq.modelo;
 
 public class Servicio {
 
@@ -9,7 +9,6 @@ public class Servicio {
     private boolean disponible;
 
     public Servicio(String id, String nombre, String descripcion, double precio, boolean disponible) {
-
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
@@ -38,7 +37,6 @@ public class Servicio {
     }
 
     public void cambiarDisponibilidad(boolean disponible){
-
         this.disponible = disponible;
     }
 }

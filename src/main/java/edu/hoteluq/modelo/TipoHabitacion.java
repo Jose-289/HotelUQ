@@ -1,4 +1,4 @@
-package edu.hoteluq.model;
+package edu.hoteluq.modelo;
 
 public class TipoHabitacion {
 
@@ -8,7 +8,6 @@ public class TipoHabitacion {
     private double tarifaNoche;
 
     public TipoHabitacion(String nombre, String descripcion, int capacidad, double tarifaNoche) {
-
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.capacidad = capacidad;
@@ -29,5 +28,9 @@ public class TipoHabitacion {
 
     public double getTarifaNoche() {
         return tarifaNoche;
+    }
+
+    public double calcularValor(int noches){
+        return tarifaNoche * noches;
     }
 }

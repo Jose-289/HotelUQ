@@ -1,6 +1,8 @@
-package edu.hoteluq.model;
+package edu.hoteluq.modelo;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Reserva {
 
@@ -11,10 +13,10 @@ public class Reserva {
     private LocalDate fechaSalida;
     private double valorTotal;
     private EstadoReserva estado;
+    private List<Servicio> servicios;
 
     public Reserva(String id, Cliente cliente, Habitacion habitacion, LocalDate fechaEntrada,
                    LocalDate fechaSalida, double valorTotal, EstadoReserva estado) {
-
         this.id = id;
         this.cliente = cliente;
         this.habitacion = habitacion;
@@ -22,6 +24,7 @@ public class Reserva {
         this.fechaSalida = fechaSalida;
         this.valorTotal = valorTotal;
         this.estado = estado;
+        this.servicios = new ArrayList<>();
     }
 
     public String getId() {
@@ -52,8 +55,30 @@ public class Reserva {
         return estado;
     }
 
-    public void cambiarEstado(EstadoReserva estado){
-
-        this.estado = estado;
+    public List<Servicio> getServicios() {
+        return servicios;
     }
+
+    public long calcularNoches(){
+        return 0;
+    }
+
+    public double calcularTotal(){
+        return  valorTotal;
+    }
+
+    public void agregarServicio(Servicio servicio){
+        servicios.add(servicio);
+    }
+
+    public void cancelar(){
+        estado = EstadoReserva.CANCELADA;
+    }
+
+    public void confirmar(){
+        estado = EstadoReserva.CONFIRMADA;
+    }
+
+
+
 }

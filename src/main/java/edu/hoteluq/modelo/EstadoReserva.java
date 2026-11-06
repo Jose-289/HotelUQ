@@ -1,4 +1,4 @@
-package edu.hoteluq.model;
+package edu.hoteluq.modelo;
 
 public enum EstadoReserva {
 
