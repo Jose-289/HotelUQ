@@ -14,6 +14,8 @@ public class Reserva {
     private double valorTotal;
     private EstadoReserva estado;
     private List<Servicio> servicios;
+    private Promocion promocion;
+    private Pago pago;
 
     public Reserva(String id, Cliente cliente, Habitacion habitacion, LocalDate fechaEntrada,
                    LocalDate fechaSalida, double valorTotal, EstadoReserva estado) {
@@ -25,6 +27,8 @@ public class Reserva {
         this.valorTotal = valorTotal;
         this.estado = estado;
         this.servicios = new ArrayList<>();
+        this.promocion = null;
+        this.pago = null;
     }
 
     public String getId() {
@@ -59,6 +63,14 @@ public class Reserva {
         return servicios;
     }
 
+    public Promocion getPromocion() {
+        return promocion;
+    }
+
+    public Pago getPago() {
+        return pago;
+    }
+
     public long calcularNoches(){
         return 0;
     }
@@ -69,6 +81,14 @@ public class Reserva {
 
     public void agregarServicio(Servicio servicio){
         servicios.add(servicio);
+    }
+
+    public void aplicarPromocion(Promocion promocion){
+        this.promocion = promocion;
+    }
+
+    public void asignarPago(Pago pago){
+        this.pago = pago;
     }
 
     public void cancelar(){

@@ -8,12 +8,14 @@ public class Pago {
     private LocalDateTime fecha;
     private double valor;
     private EstadoPago estado;
+    private Reserva reserva;
 
-    public Pago(String id, LocalDateTime fecha, double valor, EstadoPago estado) {
+    public Pago(String id, LocalDateTime fecha, double valor, EstadoPago estado, Reserva reserva) {
         this.id = id;
         this.fecha = fecha;
         this.valor = valor;
         this.estado = estado;
+        this.reserva = reserva;
     }
 
     public String getId() {
@@ -30,6 +32,10 @@ public class Pago {
 
     public EstadoPago getEstado() {
         return estado;
+    }
+
+    public Reserva getReserva() {
+        return reserva;
     }
 
     public void procesar(){
