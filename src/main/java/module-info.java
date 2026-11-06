@@ -5,7 +5,7 @@ module edu.hoteluq {
 
     opens edu.hoteluq.app to javafx.fxml;
     exports edu.hoteluq.app;
-    exports edu.hoteluq.controller;
-    opens edu.hoteluq.controller to javafx.fxml;
+    exports edu.hoteluq.controlador;
+    opens edu.hoteluq.controlador to javafx.fxml;
 
 }
