@@ -1,15 +1,20 @@
 package edu.hoteluq.modelo;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class TarjetaVirtual {
 
     private String numero;
     private double saldo;
     private boolean activa;
+    private List<MovimientoTarjeta> movimientos;
 
     public TarjetaVirtual(String numero, double saldo, boolean activa) {
         this.numero = numero;
         this.saldo = saldo;
         this.activa = activa;
+        this.movimientos = new ArrayList<>();
     }
 
     public String getNumero() {
@@ -22,6 +27,10 @@ public class TarjetaVirtual {
 
     public boolean isActiva() {
         return activa;
+    }
+
+    public List<MovimientoTarjeta> getMovimientos() {
+        return movimientos;
     }
 
     public boolean puedePagar(double valor){

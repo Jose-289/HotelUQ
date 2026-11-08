@@ -9,6 +9,7 @@ public class Pago {
     private double valor;
     private EstadoPago estado;
     private Reserva reserva;
+    private Reembolso reembolso;
 
     public Pago(String id, LocalDateTime fecha, double valor, EstadoPago estado, Reserva reserva) {
         this.id = id;
@@ -16,6 +17,7 @@ public class Pago {
         this.valor = valor;
         this.estado = estado;
         this.reserva = reserva;
+        this.reembolso = null;
     }
 
     public String getId() {
@@ -38,8 +40,30 @@ public class Pago {
         return reserva;
     }
 
-    public void procesar(){
+    public Reembolso getReembolso() {
+        return reembolso;
+    }
 
+    public void asignarReembolso(Reembolso reembolso){
+        this.reembolso = reembolso;
+    }
+
+    public void procesar(){
+        TarjetaVirtual tarjeta = reserva.getCliente().getTarjetaVirtual();;
+
+        if (tarjeta.puedePagar(valor)){
+            aprobar();
+            tarjeta.pagar(valor);
+
+            MovimientoTarjeta movimiento = new MovimientoTarjeta(id,LocalDateTime.now(), TipoMovimiento.PAGO,
+                    valor, "Pago de reserva");
+
+            tarjeta.getMovimientos().add(movimiento);
+
+            reserva.asignarPago(this);
+        }else {
+            rechazar();
+        }
 
     }
 
@@ -49,5 +73,9 @@ public class Pago {
 
     public void rechazar(){
         estado = EstadoPago.RECHAZADO;
+    }
+
+    public void reembolsar(){
+        estado = EstadoPago.REEMBOLSADO;
     }
 }
