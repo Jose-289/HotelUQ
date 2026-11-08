@@ -24,6 +24,10 @@ public class TarjetaVirtual {
         return activa;
     }
 
+    public boolean puedePagar(double valor){
+        return activa && saldo >= valor;
+    }
+
     public void pagar(double valor){
         saldo -= valor;
     }

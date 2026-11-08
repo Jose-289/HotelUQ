@@ -1,6 +1,7 @@
 package edu.hoteluq.modelo;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,16 +10,16 @@ public class Reserva {
     private String id;
     private Cliente cliente;
     private Habitacion habitacion;
-    private LocalDate fechaEntrada;
-    private LocalDate fechaSalida;
+    private LocalDateTime fechaEntrada;
+    private LocalDateTime fechaSalida;
     private double valorTotal;
     private EstadoReserva estado;
     private List<Servicio> servicios;
     private Promocion promocion;
     private Pago pago;
 
-    public Reserva(String id, Cliente cliente, Habitacion habitacion, LocalDate fechaEntrada,
-                   LocalDate fechaSalida, double valorTotal, EstadoReserva estado) {
+    public Reserva(String id, Cliente cliente, Habitacion habitacion, LocalDateTime fechaEntrada,
+                   LocalDateTime fechaSalida, double valorTotal, EstadoReserva estado) {
         this.id = id;
         this.cliente = cliente;
         this.habitacion = habitacion;
@@ -43,11 +44,11 @@ public class Reserva {
         return habitacion;
     }
 
-    public LocalDate getFechaEntrada() {
+    public LocalDateTime getFechaEntrada() {
         return fechaEntrada;
     }
 
-    public LocalDate getFechaSalida() {
+    public LocalDateTime getFechaSalida() {
         return fechaSalida;
     }
 
@@ -72,15 +73,45 @@ public class Reserva {
     }
 
     public long calcularNoches(){
-        return 0;
+        return ChronoUnit.DAYS.between(
+                fechaEntrada.toLocalDate(),
+                fechaSalida.toLocalDate()
+        );
+    }
+
+    public double calcularValorHabitacion(){
+        return habitacion.getTipo().calcularValor((int) calcularNoches());
+    }
+
+    public double calcularValorServicios(){
+        double totalServicios = 0;
+
+        for (Servicio servicio : servicios){
+            totalServicios += servicio.getPrecio();
+        }
+        return totalServicios;
+    }
+
+    public boolean fechasValidas(){
+        return fechaSalida.isAfter(fechaEntrada);
     }
 
     public double calcularTotal(){
-        return  valorTotal;
+        double total = calcularValorHabitacion();
+
+        total += calcularValorServicios();
+
+        if (promocion !=  null && promocion.esAplicable(this)){
+            total -= promocion.calcularDescuento(total);
+        }
+
+        return total;
     }
 
     public void agregarServicio(Servicio servicio){
-        servicios.add(servicio);
+        if (servicio.isDisponible()){
+            servicios.add(servicio);
+        }
     }
 
     public void aplicarPromocion(Promocion promocion){
