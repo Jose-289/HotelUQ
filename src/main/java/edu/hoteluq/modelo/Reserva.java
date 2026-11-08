@@ -109,7 +109,9 @@ public class Reserva {
     }
 
     public void agregarServicio(Servicio servicio){
-        servicios.add(servicio);
+        if (servicio.isDisponible()){
+            servicios.add(servicio);
+        }
     }
 
     public void aplicarPromocion(Promocion promocion){
