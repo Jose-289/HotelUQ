@@ -79,12 +79,33 @@ public class Reserva {
         );
     }
 
+    public double calcularValorHabitacion(){
+        return habitacion.getTipo().calcularValor((int) calcularNoches());
+    }
+
+    public double calcularValorServicios(){
+        double totalServicios = 0;
+
+        for (Servicio servicio : servicios){
+            totalServicios += servicio.getPrecio();
+        }
+        return totalServicios;
+    }
+
     public boolean fechasValidas(){
         return fechaSalida.isAfter(fechaEntrada);
     }
 
     public double calcularTotal(){
-        return  valorTotal;
+        double total = calcularValorHabitacion();
+
+        total += calcularValorServicios();
+
+        if (promocion !=  null && promocion.esAplicable(this)){
+            total -= promocion.calcularDescuento(total);
+        }
+
+        return total;
     }
 
     public void agregarServicio(Servicio servicio){
