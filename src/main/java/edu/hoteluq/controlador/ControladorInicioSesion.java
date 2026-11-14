@@ -1,6 +1,7 @@
 package edu.hoteluq.controlador;
 
 
+import edu.hoteluq.modelo.Rol;
 import edu.hoteluq.modelo.Usuario;
 import edu.hoteluq.servicio.ServicioAutenticacion;
 import edu.hoteluq.servicio.ServicioUsuarios;
@@ -55,19 +56,41 @@ public class ControladorInicioSesion {
             return;
         }
 
-        FXMLLoader cargador = new FXMLLoader(getClass().getResource("/edu/hoteluq/Vistas/vistaMenuCliente.fxml"));
+        FXMLLoader cargador;
 
-        Scene escena = new Scene(cargador.load());
+        if (usuario.getRol() == Rol.CLIENTE){
 
-        ControladorMenuCliente controlador = cargador.getController();
+            cargador = new FXMLLoader(getClass().getResource("/edu/hoteluq/Vistas/vistaMenuCliente.fxml"));
 
-        controlador.mostrarBienvenida(usuario.getNombre());
+            Scene escena = new Scene(cargador.load());
 
-        Stage ventana = (Stage) ((Node) evento.getSource()).getScene().getWindow();
+            ControladorMenuCliente controlador = cargador.getController();
 
-        ventana.setScene(escena);
-        ventana.setTitle("HotelUQ - Menú del cliente");
-        ventana.show();
+            controlador.mostrarBienvenida(usuario.getNombre());
+
+            Stage ventana = (Stage) ((Node) evento.getSource()).getScene().getWindow();
+
+            ventana.setScene(escena);
+            ventana.setTitle("HotelUQ - Menú del cliente");
+            ventana.show();
+
+        } else if (usuario.getRol() == Rol.ADMINISTRADOR) {
+
+            cargador = new FXMLLoader(getClass().getResource("/edu/hoteluq/Vistas/vistaMenuAdministrador.fxml"));
+
+            Scene escena = new Scene(cargador.load());
+
+            ControladorMenuAdministrador controlador = cargador.getController();
+
+            controlador.mostrarBienvenida(usuario.getNombre());
+
+            Stage ventana = (Stage) ((Node) evento.getSource()).getScene().getWindow();
+
+            ventana.setScene(escena);
+            ventana.setTitle("HotelUQ - Menú del administrador");
+            ventana.show();
+
+        }
     }
 
     public void volverInicio(ActionEvent evento) throws IOException{

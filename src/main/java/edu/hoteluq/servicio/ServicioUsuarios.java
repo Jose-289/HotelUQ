@@ -11,7 +11,7 @@ public class ServicioUsuarios {
 
     private final List<Usuario> usuarios;
 
-    public ServicioUsuarios(){
+    private ServicioUsuarios(){
         usuarios = new ArrayList<>();
     }
 
@@ -34,7 +34,7 @@ public class ServicioUsuarios {
         return null;
     }
 
-    public Usuario buscarporId(String id){
+    public Usuario buscarPorId(String id){
 
         for (Usuario usuario : usuarios){
 
