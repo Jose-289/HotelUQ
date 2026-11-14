@@ -23,6 +23,6 @@
 
     <Button text="Iniciar sesión" onAction="#abrirInicioSesion"/>
 
-    <Button text="Registrarse"/>
+    <Button text="Registrarse" onAction="#abrirRegistro"/>
 
 </VBox>

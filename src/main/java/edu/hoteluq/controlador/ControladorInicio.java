@@ -21,4 +21,17 @@ public class ControladorInicio {
         ventana.setTitle("HotelUQ - Inicio de sesión");
         ventana.show();
     }
+
+    public void abrirRegistro(ActionEvent evento) throws  IOException{
+
+        FXMLLoader cargador = new FXMLLoader(getClass().getResource("/edu/hoteluq/Vistas/vistaRegistro.fxml"));
+
+        Scene escena = new Scene(cargador.load());
+
+        Stage ventana = (Stage) ((javafx.scene.Node) evento.getSource()).getScene().getWindow();
+
+        ventana.setScene(escena);
+        ventana.setTitle("HotelUQ - Registro");
+        ventana.show();
+    }
 }
