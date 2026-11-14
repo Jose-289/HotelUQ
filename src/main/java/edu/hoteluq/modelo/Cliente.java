@@ -1,45 +1,18 @@
 package edu.hoteluq.modelo;
 
-public class Cliente {
+public class Cliente extends Usuario{
 
-    private String id;
-    private String nombre;
-    private String correo;
-    private String telefono;
-    private String contrasenia;
     private TarjetaVirtual tarjetaVirtual;
     private CuentaPuntos cuentaPuntos;
 
     public Cliente(String id, String nombre, String correo, String telefono, String contrasenia,
                    TarjetaVirtual tarjetaVirtual, CuentaPuntos cuentaPuntos) {
 
-        this.id = id;
-        this.nombre = nombre;
-        this.correo = correo;
-        this.telefono = telefono;
-        this.contrasenia = contrasenia;
+        super(id, nombre, correo, telefono, contrasenia, Rol.CLIENTE);
+
         this.tarjetaVirtual = tarjetaVirtual;
         this.cuentaPuntos = cuentaPuntos;
-    }
 
-    public String getId() {
-        return id;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public String getCorreo() {
-        return correo;
-    }
-
-    public String getTelefono() {
-        return telefono;
-    }
-
-    public String getContrasenia() {
-        return contrasenia;
     }
 
     public TarjetaVirtual getTarjetaVirtual() {
