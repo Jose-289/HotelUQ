@@ -24,12 +24,12 @@
     <Label text="Inicio de sesión"/>
 
     <Label text="Correo electrónico"/>
-    <TextField promptText="Ingrese su correo electrónico"/>
+    <TextField fx:id="campoCorreo" promptText="Ingrese su correo electrónico"/>
 
     <Label text="Contraseña"/>
-    <PasswordField promptText="Ingrese su contraseña"/>
+    <PasswordField fx:id="campoContrasenia" promptText="Ingrese su contraseña"/>
 
-    <Button text="Ingresar"/>
+    <Button text="Ingresar" onAction="#iniciarSesion"/>
 
     <Button text="Volver al inicio"
             onAction="#volverInicio"/>

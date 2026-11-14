@@ -61,7 +61,7 @@ public class ControladorRegistro {
             Alert alerta = new Alert(Alert.AlertType.WARNING);
             alerta.setTitle("Registro");
             alerta.setHeaderText(null);
-            alerta.setContentText("Todos los campos son obligatorios");
+            alerta.setContentText("Todos los campos son obligatorios.");
             alerta.showAndWait();
 
             return;
@@ -72,7 +72,7 @@ public class ControladorRegistro {
             Alert alerta = new Alert(Alert.AlertType.WARNING);
             alerta.setTitle("Registro");
             alerta.setHeaderText(null);
-            alerta.setContentText("El documento ya está registrado");
+            alerta.setContentText("El cliente ya se encuentra registrado.");
             alerta.showAndWait();
 
             return;
@@ -83,7 +83,7 @@ public class ControladorRegistro {
             Alert alerta = new Alert(Alert.AlertType.WARNING);
             alerta.setTitle("Registro");
             alerta.setHeaderText(null);
-            alerta.setContentText("El correo electrónico ya está registrado");
+            alerta.setContentText("El correo electrónico ya se encuentra registrado.");
             alerta.showAndWait();
 
             return;
@@ -94,7 +94,7 @@ public class ControladorRegistro {
             Alert alerta = new Alert(Alert.AlertType.WARNING);
             alerta.setTitle("Registro");
             alerta.setHeaderText(null);
-            alerta.setContentText("Ingrese un correo electrónico válido");
+            alerta.setContentText("Ingrese un correo electrónico válido.");
             alerta.showAndWait();
 
             return;
@@ -105,7 +105,7 @@ public class ControladorRegistro {
             Alert alerta = new Alert(Alert.AlertType.WARNING);
             alerta.setTitle("Registro");
             alerta.setHeaderText(null);
-            alerta.setContentText("El teléfono solo debe contener números");
+            alerta.setContentText("El teléfono solo debe contener números.");
             alerta.showAndWait();
 
             return;
@@ -116,7 +116,18 @@ public class ControladorRegistro {
             Alert alerta = new Alert(Alert.AlertType.WARNING);
             alerta.setTitle("Registro");
             alerta.setHeaderText(null);
-            alerta.setContentText("El teléfono debe contener exactamente 10 números");
+            alerta.setContentText("El teléfono debe contener exactamente 10 números.");
+            alerta.showAndWait();
+
+            return;
+        }
+
+        if (contrasenia.length() <6){
+
+            Alert alerta = new Alert(Alert.AlertType.WARNING);
+            alerta.setTitle("Registro");
+            alerta.setHeaderText(null);
+            alerta.setContentText("La contraseña debe tener mínimo 6 caracteres.");
             alerta.showAndWait();
 
             return;
@@ -133,7 +144,7 @@ public class ControladorRegistro {
         Alert alerta = new Alert(Alert.AlertType.INFORMATION);
         alerta.setTitle("Registro");
         alerta.setHeaderText(null);
-        alerta.setContentText("Cliente registrado exitosamente");
+        alerta.setContentText("Cliente registrado exitosamente.");
         alerta.showAndWait();
 
         System.out.println("Cliente registrado correctamente: " + nombre);
