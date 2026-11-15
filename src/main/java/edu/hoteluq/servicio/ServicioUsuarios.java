@@ -1,6 +1,7 @@
 package edu.hoteluq.servicio;
 
 import edu.hoteluq.modelo.Usuario;
+import edu.hoteluq.repositorio.RepositorioUsuarios;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,10 +10,10 @@ public class ServicioUsuarios {
 
     private static final ServicioUsuarios instancia = new ServicioUsuarios();
 
-    private final List<Usuario> usuarios;
+    private final RepositorioUsuarios repositorioUsuarios;
 
     private ServicioUsuarios(){
-        usuarios = new ArrayList<>();
+        repositorioUsuarios = new RepositorioUsuarios();
     }
 
     public static ServicioUsuarios getInstancia(){
@@ -20,32 +21,18 @@ public class ServicioUsuarios {
     }
 
     public void agregarUsuario(Usuario usuario){
-        usuarios.add(usuario);
+        repositorioUsuarios.guardar(usuario);
     }
 
     public Usuario buscarPorCorreo(String correo){
-
-        for (Usuario usuario : usuarios){
-
-            if (usuario.getCorreo().equalsIgnoreCase(correo)){
-                return usuario;
-            }
-        }
-        return null;
+        return repositorioUsuarios.buscarPorCorreo(correo);
     }
 
     public Usuario buscarPorId(String id){
-
-        for (Usuario usuario : usuarios){
-
-            if (usuario.getId().equalsIgnoreCase(id)){
-                return usuario;
-            }
-        }
-        return null;
+        return repositorioUsuarios.buscarPorId(id);
     }
 
     public List<Usuario> obtenerUsuarios(){
-        return usuarios;
+        return repositorioUsuarios.obtenerTodos();
     }
 }
