@@ -22,7 +22,7 @@
     <Label fx:id="textoBienvenida"
            text="Bienvenido"/>
 
-    <Button text="Gestionar clientes"/>
+    <Button text="Gestionar clientes" onAction="#abrirGestionClientes"/>
 
     <Button text="Gestionar habitaciones"/>
 
