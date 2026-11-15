@@ -1,6 +1,7 @@
 package edu.hoteluq.controlador;
 
 
+import edu.hoteluq.modelo.Rol;
 import edu.hoteluq.modelo.Usuario;
 import edu.hoteluq.servicio.ServicioAutenticacion;
 import edu.hoteluq.servicio.ServicioUsuarios;
@@ -26,7 +27,7 @@ public class ControladorInicioSesion {
 
     private final ServicioAutenticacion servicioAutenticacion = new ServicioAutenticacion(ServicioUsuarios.getInstancia());
 
-    public void iniciarSesion(){
+    public void iniciarSesion(ActionEvent evento) throws IOException{
 
         String correo = campoCorreo.getText().trim();
         String contrasenia = campoContrasenia.getText();
@@ -55,11 +56,41 @@ public class ControladorInicioSesion {
             return;
         }
 
-        Alert alerta = new Alert(Alert.AlertType.INFORMATION);
-        alerta.setTitle("Inicio de sesión");
-        alerta.setHeaderText(null);
-        alerta.setContentText("Bienvenido, " + usuario.getNombre() + ".");
-        alerta.showAndWait();
+        FXMLLoader cargador;
+
+        if (usuario.getRol() == Rol.CLIENTE){
+
+            cargador = new FXMLLoader(getClass().getResource("/edu/hoteluq/Vistas/vistaMenuCliente.fxml"));
+
+            Scene escena = new Scene(cargador.load());
+
+            ControladorMenuCliente controlador = cargador.getController();
+
+            controlador.mostrarBienvenida(usuario.getNombre());
+
+            Stage ventana = (Stage) ((Node) evento.getSource()).getScene().getWindow();
+
+            ventana.setScene(escena);
+            ventana.setTitle("HotelUQ - Menú del cliente");
+            ventana.show();
+
+        } else if (usuario.getRol() == Rol.ADMINISTRADOR) {
+
+            cargador = new FXMLLoader(getClass().getResource("/edu/hoteluq/Vistas/vistaMenuAdministrador.fxml"));
+
+            Scene escena = new Scene(cargador.load());
+
+            ControladorMenuAdministrador controlador = cargador.getController();
+
+            controlador.mostrarBienvenida(usuario.getNombre());
+
+            Stage ventana = (Stage) ((Node) evento.getSource()).getScene().getWindow();
+
+            ventana.setScene(escena);
+            ventana.setTitle("HotelUQ - Menú del administrador");
+            ventana.show();
+
+        }
     }
 
     public void volverInicio(ActionEvent evento) throws IOException{

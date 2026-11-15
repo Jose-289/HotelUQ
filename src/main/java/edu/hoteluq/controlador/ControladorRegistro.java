@@ -67,7 +67,7 @@ public class ControladorRegistro {
             return;
         }
 
-        if (servicioUsuarios.buscarporId(documento) != null){
+        if (servicioUsuarios.buscarPorId(documento) != null){
 
             Alert alerta = new Alert(Alert.AlertType.WARNING);
             alerta.setTitle("Registro");
