@@ -3,37 +3,103 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox xmlns="http://javafx.com/javafx/21"
-      xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="edu.hoteluq.controlador.ControladorMenuAdministrador"
-      alignment="CENTER"
-      spacing="15">
+<BorderPane prefHeight="650.0" prefWidth="1000.0" style="-fx-background-color: #f4f6f9;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.hoteluq.controlador.ControladorMenuAdministrador">
 
-    <padding>
-        <Insets top="30" right="30" bottom="30" left="30"/>
-    </padding>
+    <!-- BARRA SUPERIOR -->
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="20.0" style="-fx-background-color: #1A365D; -fx-padding: 15 25;">
+            <Label style="-fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: bold;" text="HotelUQ - Cloud Dashboard" />
+            <HBox HBox.hgrow="ALWAYS" />
+            <Label fx:id="textoBienvenida" style="-fx-text-fill: #E2E8F0; -fx-font-size: 14px;" text="Bienvenido, Administrador" />
+            <Button onAction="#cerrarSesion" style="-fx-background-color: #E53E3E; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" text="Cerrar sesión" />
+        </HBox>
+    </top>
 
-    <Label text="HotelUQ"/>
+    <!-- CENTRO: TARJETAS DE ACCESO RÁPIDO (GRID) -->
+    <center>
+        <VBox spacing="20.0">
+            <padding>
+                <Insets bottom="30.0" left="30.0" right="20.0" top="30.0" />
+            </padding>
+            <Label style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #2D3748;" text="Panel de Administración General" />
 
-    <Label text="Menú del administrador"/>
+            <GridPane hgap="20.0" vgap="20.0">
+                <columnConstraints>
+                    <ColumnConstraints hgrow="SOMETIMES" minWidth="150.0" prefWidth="200.0" />
+                    <ColumnConstraints hgrow="SOMETIMES" minWidth="150.0" prefWidth="200.0" />
+                    <ColumnConstraints hgrow="SOMETIMES" minWidth="150.0" prefWidth="200.0" />
+                </columnConstraints>
+                <rowConstraints>
+                    <RowConstraints minHeight="120.0" prefHeight="130.0" vgrow="SOMETIMES" />
+                    <RowConstraints minHeight="120.0" prefHeight="130.0" vgrow="SOMETIMES" />
+                </rowConstraints>
 
-    <Label fx:id="textoBienvenida"
-           text="Bienvenido"/>
+                <!-- Tarjeta 1: Clientes -->
+                <VBox alignment="CENTER" onMouseClicked="#abrirGestionClientes" style="-fx-background-color: #2B6CB0; -fx-background-radius: 10px; -fx-cursor: hand; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 8, 0, 0, 4);" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                    <Label style="-fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold;" text="👥 Clientes" />
+                    <Label style="-fx-text-fill: #E2E8F0; -fx-font-size: 12px; -fx-padding: 5 0 0 0;" text="Gestionar usuarios" />
+                </VBox>
 
-    <Button text="Gestionar clientes" onAction="#abrirGestionClientes"/>
+                <!-- Tarjeta 2: Habitaciones -->
+                <VBox alignment="CENTER" onMouseClicked="#abrirGestionHabitaciones" style="-fx-background-color: #319795; -fx-background-radius: 10px; -fx-cursor: hand; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 8, 0, 0, 4);" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                    <Label style="-fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold;" text="🏨 Habitaciones" />
+                    <Label style="-fx-text-fill: #E2E8F0; -fx-font-size: 12px; -fx-padding: 5 0 0 0;" text="Tipos y estado" />
+                </VBox>
 
-    <Button text="Gestionar habitaciones"/>
+                <!-- Tarjeta 3: Reservas -->
+                <VBox alignment="CENTER" onMouseClicked="#abrirGestionReservas" style="-fx-background-color: #DD6B20; -fx-background-radius: 10px; -fx-cursor: hand; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 8, 0, 0, 4);" GridPane.columnIndex="2" GridPane.rowIndex="0">
+                    <Label style="-fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold;" text="📅 Reservas" />
+                    <Label style="-fx-text-fill: #E2E8F0; -fx-font-size: 12px; -fx-padding: 5 0 0 0;" text="Control de estadías" />
+                </VBox>
 
-    <Button text="Gestionar reservas"/>
+                <!-- Tarjeta 4: Servicios -->
+                <VBox alignment="CENTER" onMouseClicked="#abrirGestionServicios" style="-fx-background-color: #805AD5; -fx-background-radius: 10px; -fx-cursor: hand; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 8, 0, 0, 4);" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                    <Label style="-fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold;" text="🛎️ Servicios" />
+                    <Label style="-fx-text-fill: #E2E8F0; -fx-font-size: 12px; -fx-padding: 5 0 0 0;" text="Adicionales y spa" />
+                </VBox>
 
-    <Button text="Gestionar servicios"/>
+                <!-- Tarjeta 5: Promociones -->
+                <VBox alignment="CENTER" onMouseClicked="#abrirGestionPromociones" style="-fx-background-color: #D69E2E; -fx-background-radius: 10px; -fx-cursor: hand; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 8, 0, 0, 4);" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                    <Label style="-fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold;" text="🏷️ Promociones" />
+                    <Label style="-fx-text-fill: #E2E8F0; -fx-font-size: 12px; -fx-padding: 5 0 0 0;" text="Descuentos y ofertas" />
+                </VBox>
 
-    <Button text="Gestionar promociones"/>
+                <!-- Tarjeta 6: Reportes -->
+                <VBox alignment="CENTER" onMouseClicked="#abrirGenerarReportes" style="-fx-background-color: #3182CE; -fx-background-radius: 10px; -fx-cursor: hand; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 8, 0, 0, 4);" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                    <Label style="-fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold;" text="📊 Reportes" />
+                    <Label style="-fx-text-fill: #E2E8F0; -fx-font-size: 12px; -fx-padding: 5 0 0 0;" text="Exportables y visuales" />
+                </VBox>
+            </GridPane>
+        </VBox>
+    </center>
 
-    <Button text="Generar reportes"/>
+    <!-- DERECHA: PANEL LATERAL DE ESTADÍSTICAS RÁPIDAS -->
+    <right>
+        <VBox spacing="15.0" style="-fx-background-color: #1A202C; -fx-padding: 20; -fx-pref-width: 250px;">
+            <Label style="-fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold;" text="📈 Dashboard KPI" />
 
-    <Button text="Cerrar sesión"/>
+            <VBox style="-fx-background-color: #2D3748; -fx-background-radius: 8px; -fx-padding: 12;">
+                <Label style="-fx-text-fill: #A0AEC0; -fx-font-size: 12px;" text="Ocupación Actual" />
+                <Label fx:id="lblOcupacion" style="-fx-text-fill: #4FD1C5; -fx-font-size: 20px; -fx-font-weight: bold;" text="0.0%" />
+            </VBox>
 
-</VBox>
+            <VBox style="-fx-background-color: #2D3748; -fx-background-radius: 8px; -fx-padding: 12;">
+                <Label style="-fx-text-fill: #A0AEC0; -fx-font-size: 12px;" text="Habitaciones Libres" />
+                <Label fx:id="lblDisponibles" style="-fx-text-fill: #63B3ED; -fx-font-size: 20px; -fx-font-weight: bold;" text="0" />
+            </VBox>
+
+            <VBox style="-fx-background-color: #2D3748; -fx-background-radius: 8px; -fx-padding: 12;">
+                <Label style="-fx-text-fill: #A0AEC0; -fx-font-size: 12px;" text="Estado del Sistema" />
+                <Label style="-fx-text-fill: #68D391; -fx-font-size: 14px; -fx-font-weight: bold;" text="● En Línea" />
+            </VBox>
+        </VBox>
+    </right>
+
+</BorderPane>

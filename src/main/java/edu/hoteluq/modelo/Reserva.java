@@ -80,7 +80,8 @@ public class Reserva {
     }
 
     public double calcularValorHabitacion(){
-        return habitacion.getTipo().calcularValor((int) calcularNoches());
+        // Llamada polimórfica directa a calcularValor() o tarifa de la habitación
+        return habitacion.calcularValor((int) calcularNoches());
     }
 
     public double calcularValorServicios(){
