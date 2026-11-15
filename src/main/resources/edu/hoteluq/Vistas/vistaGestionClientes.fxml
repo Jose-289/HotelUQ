@@ -28,7 +28,7 @@
     </TableView>
 
     <VBox spacing="10.0">
-        <Button text="Agregar cliente"/>
+        <Button text="Agregar cliente" onAction="#abrirAgregarCliente"/>
         <Button text="Eliminar cliente"/>
         <Button text="Modificar cliente"/>
         <Button text="Volver"/>

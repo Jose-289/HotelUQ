@@ -1,9 +1,6 @@
 package edu.hoteluq.datos;
 
-import edu.hoteluq.modelo.Administrador;
-import edu.hoteluq.modelo.EstadoHabitacion;
-import edu.hoteluq.modelo.Habitacion;
-import edu.hoteluq.modelo.TipoHabitacion;
+import edu.hoteluq.modelo.*;
 import edu.hoteluq.repositorio.RepositorioHabitaciones;
 import edu.hoteluq.repositorio.RepositorioTiposHabitacion;
 import edu.hoteluq.servicio.ServicioUsuarios;
@@ -23,6 +20,29 @@ public class DatosIniciales {
         );
 
         servicioUsuarios.agregarUsuario(administrador);
+
+        Cliente cliente1 = new Cliente(
+                "CLI-001",
+                "Maria Jose Fajardo",
+                "majofj@gmail.com",
+                "3101234567",
+                "cliente123",
+                new TarjetaVirtual("TV-001", 500000, true),
+                new CuentaPuntos(100)
+        );
+
+        Cliente cliente2 = new Cliente(
+                "CLI-002",
+                "Carlos Gómez",
+                "carlos@gmail.com",
+                "3207654321",
+                "cliente123",
+                new TarjetaVirtual("TV-002", 300000, true),
+                new CuentaPuntos(50)
+        );
+
+        servicioUsuarios.agregarUsuario(cliente1);
+        servicioUsuarios.agregarUsuario(cliente2);
     }
 
     public static void cargarHabitacionesIniciales(){
