@@ -1,66 +1,44 @@
 package edu.hoteluq.modelo;
 
+import edu.hoteluq.patron.comportamental.strategy.EstrategiaDescuento;
 import java.time.LocalDate;
 
 public class Promocion {
+    private final String codigo;
+    private final String descripcion;
+    private final LocalDate fechaInicio;
+    private final LocalDate fechaFin;
+    private final EstrategiaDescuento estrategia;
+    private boolean activa;
 
-    private String id;
-    private String nombre;
-    private String descripcion;
-    private double porcentajeDescuento;
-    private LocalDate fechaInicio;
-    private LocalDate fechaFin;
-    private int nochesMinimas;
-
-    public Promocion(String id, String nombre, String descripcion,  double porcentajeDescuento,
-                     LocalDate fechaInicio, LocalDate fechaFin, int nochesMinimas) {
-        this.id = id;
-        this.nombre = nombre;
+    public Promocion(String codigo, String descripcion, LocalDate fechaInicio, LocalDate fechaFin,
+                     EstrategiaDescuento estrategia, boolean activa) {
+        this.codigo = codigo;
         this.descripcion = descripcion;
-        this.porcentajeDescuento = porcentajeDescuento;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
-        this.nochesMinimas = nochesMinimas;
+        this.estrategia = estrategia;
+        this.activa = activa;
     }
 
-    public String getId() {
-        return id;
+    public String getCodigo() { return codigo; }
+    public String getDescripcion() { return descripcion; }
+    public LocalDate getFechaInicio() { return fechaInicio; }
+    public LocalDate getFechaFin() { return fechaFin; }
+    public EstrategiaDescuento getEstrategia() { return estrategia; }
+    public boolean isActiva() { return activa; }
+    public void setActiva(boolean activa) { this.activa = activa; }
+
+    public boolean estaVigente() {
+        LocalDate hoy = LocalDate.now();
+        return activa && !hoy.isBefore(fechaInicio) && !hoy.isAfter(fechaFin);
     }
 
-    public String getNombre() {
-        return nombre;
+    public boolean esAplicable(Reserva reserva) {
+        return estaVigente() && estrategia != null && estrategia.esAplicable(reserva);
     }
 
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public double getPorcentajeDescuento() {
-        return porcentajeDescuento;
-    }
-
-    public LocalDate getFechaInicio() {
-        return fechaInicio;
-    }
-
-    public LocalDate getFechaFin() {
-        return fechaFin;
-    }
-
-    public int getNochesMinimas() {
-        return nochesMinimas;
-    }
-
-    public boolean esAplicable(Reserva reserva){
-        LocalDate fechaReserva = reserva.getFechaEntrada().toLocalDate();
-        int noches = (int) reserva.calcularNoches();
-
-        return !fechaReserva.isBefore(fechaInicio)
-                && !fechaReserva.isAfter(fechaFin)
-                && noches >= nochesMinimas;
-    }
-
-    public double calcularDescuento(double valor){
-        return valor * porcentajeDescuento / 100;
+    public double calcularDescuento(double subtotal) {
+        return estrategia != null ? estrategia.calcularDescuento(subtotal) : 0.0;
     }
 }
