@@ -54,8 +54,8 @@ public class ControladorMenuAdministrador {
     }
 
     @FXML
-    public void abrirGestionServicios(javafx.scene.input.MouseEvent event) {
-        System.out.println("Abriendo gestión de servicios...");
+    public void abrirGestionServicios(javafx.scene.input.MouseEvent event) throws IOException {
+        cambiarEscena(event, "/edu/hoteluq/Vistas/vistaGestionServicios.fxml", "HotelUQ - Gestión de Servicios");
     }
 
     @FXML
