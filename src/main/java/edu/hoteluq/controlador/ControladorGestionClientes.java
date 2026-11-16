@@ -77,4 +77,21 @@ public class ControladorGestionClientes {
         ventana.setTitle("HotelUQ - Agregar cliente");
         ventana.show();
     }
+
+    @FXML
+    public void volverMenu(ActionEvent evento) throws IOException {
+        FXMLLoader cargador = new FXMLLoader(
+                getClass().getResource("/edu/hoteluq/Vistas/vistaMenuAdministrador.fxml")
+        );
+
+        Scene escena = new Scene(cargador.load());
+
+        Stage ventana = (Stage) ((Node) evento.getSource()).getScene().getWindow();
+
+        ventana.setScene(escena);
+        ventana.setTitle("HotelUQ - Menú Administrador");
+        ventana.show();
+    }
+
+
 }
