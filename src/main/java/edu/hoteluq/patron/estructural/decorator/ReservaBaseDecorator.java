@@ -1,22 +1,22 @@
 package edu.hoteluq.patron.estructural.decorator;
 
-import edu.hoteluq.modelo.Reserva;
+import edu.hoteluq.modelo.Cotizable;
 
 public class ReservaBaseDecorator implements CostoReserva {
-    private final Reserva reserva;
+    private final Cotizable cotizable;
 
-    public ReservaBaseDecorator(Reserva reserva) {
-        this.reserva = reserva;
+    public ReservaBaseDecorator(Cotizable cotizable) {
+        this.cotizable = cotizable;
     }
 
     @Override
     public double calcularCosto() {
-        return reserva.calcularValorHabitacion();
+        return cotizable.calcularValorHabitacion();
     }
 
     @Override
     public String getDescripcion() {
-        return "Habitación " + reserva.getHabitacion().getNumero()
-                + " (" + reserva.calcularNoches() + " noches)";
+        return "Habitación " + cotizable.getHabitacion().getNumero()
+                + " (" + cotizable.calcularNoches() + " noches)";
     }
 }

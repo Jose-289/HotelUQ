@@ -5,22 +5,23 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="650.0" prefWidth="1000.0" style="-fx-background-color: #f4f6f9;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.hoteluq.controlador.ControladorGestionReservas">
+<BorderPane prefHeight="700.0" prefWidth="1050.0" style="-fx-background-color: #f4f6f9;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.hoteluq.controlador.ControladorGestionReservas">
 
     <!-- BARRA SUPERIOR -->
     <top>
         <HBox alignment="CENTER_LEFT" spacing="20.0" style="-fx-background-color: #1A365D; -fx-padding: 15 25;">
-            <Label style="-fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: bold;" text="HotelUQ - Gestión de Reservas (Builder)" />
+            <Label style="-fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: bold;" text="HotelUQ - Gestión de Reservas" />
         </HBox>
     </top>
 
-    <!-- CENTRO: FORMULARIO DE CREACIÓN + TABLA -->
+    <!-- CENTRO: FORMULARIO + TABLA -->
     <center>
         <VBox spacing="15.0">
             <padding>
@@ -28,27 +29,50 @@
             </padding>
 
             <!-- PANEL NUEVA RESERVA -->
-            <VBox spacing="10.0" style="-fx-background-color: white; -fx-padding: 15; -fx-background-radius: 8; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.06), 6, 0, 0, 2);">
+            <VBox spacing="12.0" style="-fx-background-color: white; -fx-padding: 15; -fx-background-radius: 8; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.06), 6, 0, 0, 2);">
                 <Label style="-fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #2D3748;" text="Registrar Nueva Reserva" />
+
+                <!-- FILA 1: CLIENTE, HABITACIÓN Y FECHAS -->
                 <HBox alignment="CENTER_LEFT" spacing="12.0">
-                    <ComboBox fx:id="comboClientes" prefWidth="200.0" promptText="Seleccionar Cliente" />
-                    <ComboBox fx:id="comboHabitaciones" prefWidth="210.0" promptText="Seleccionar Habitación" />
-                    <DatePicker fx:id="dateEntrada" prefWidth="145.0" promptText="Fecha Entrada" />
-                    <DatePicker fx:id="dateSalida" prefWidth="145.0" promptText="Fecha Salida" />
-                    <Button onAction="#crearReserva" style="-fx-background-color: #DD6B20; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand; -fx-padding: 7 15;" text="Reservar y Cobrar" />
+                    <ComboBox fx:id="comboClientes" prefWidth="230.0" promptText="Seleccionar Cliente" />
+                    <ComboBox fx:id="comboHabitaciones" prefWidth="230.0" promptText="Seleccionar Habitación" />
+                    <DatePicker fx:id="dateEntrada" prefWidth="150.0" promptText="Fecha Entrada" />
+                    <DatePicker fx:id="dateSalida" prefWidth="150.0" promptText="Fecha Salida" />
+                </HBox>
+
+                <!-- FILA 2: SERVICIOS ADICIONALES (DECORATOR) Y PROMOCIONES (STRATEGY) -->
+                <HBox alignment="CENTER_LEFT" spacing="12.0">
+                    <VBox spacing="6.0">
+                        <HBox alignment="CENTER_LEFT" spacing="8.0">
+                            <ComboBox fx:id="comboServicios" prefWidth="210.0" promptText="Servicio Adicional (Opcional)" />
+                            <Button onAction="#agregarServicioALista" style="-fx-background-color: #805AD5; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" text="+ Añadir" />
+                            <Button onAction="#limpiarServiciosSeleccionados" style="-fx-background-color: #EDF2F7; -fx-text-fill: #4A5568; -fx-cursor: hand;" text="Limpiar" />
+                        </HBox>
+                        <ListView fx:id="listaServiciosSeleccionados" prefHeight="65.0" prefWidth="345.0" />
+                    </VBox>
+
+                    <VBox alignment="TOP_LEFT" spacing="8.0">
+                        <ComboBox fx:id="comboPromociones" prefWidth="260.0" promptText="Aplicar Promoción (Opcional)" />
+                        <Label fx:id="lblResumenEstimado" style="-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #2B6CB0;" text="Total estimado: $0.0" />
+                    </VBox>
+
+                    <HBox HBox.hgrow="ALWAYS" />
+
+                    <Button onAction="#crearReserva" prefHeight="42.0" style="-fx-background-color: #DD6B20; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-cursor: hand; -fx-padding: 8 18;" text="Reservar y Cobrar" />
                 </HBox>
             </VBox>
 
             <!-- TABLA DE RESERVAS -->
             <TableView fx:id="tablaReservas" VBox.vgrow="ALWAYS">
                 <columns>
-                    <TableColumn fx:id="colId" prefWidth="110.0" text="Código" />
-                    <TableColumn fx:id="colCliente" prefWidth="190.0" text="Cliente" />
-                    <TableColumn fx:id="colHabitacion" prefWidth="150.0" text="Habitación" />
-                    <TableColumn fx:id="colEntrada" prefWidth="120.0" text="Entrada" />
-                    <TableColumn fx:id="colSalida" prefWidth="120.0" text="Salida" />
-                    <TableColumn fx:id="colTotal" prefWidth="130.0" text="Valor Total" />
-                    <TableColumn fx:id="colEstado" prefWidth="120.0" text="Estado" />
+                    <TableColumn fx:id="colId" prefWidth="95.0" text="Código" />
+                    <TableColumn fx:id="colCliente" prefWidth="160.0" text="Cliente" />
+                    <TableColumn fx:id="colHabitacion" prefWidth="140.0" text="Habitación" />
+                    <TableColumn fx:id="colFechas" prefWidth="165.0" text="Entrada / Salida" />
+                    <TableColumn fx:id="colServicios" prefWidth="165.0" text="Servicios" />
+                    <TableColumn fx:id="colPromocion" prefWidth="100.0" text="Promoción" />
+                    <TableColumn fx:id="colTotal" prefWidth="100.0" text="Total" />
+                    <TableColumn fx:id="colEstado" prefWidth="95.0" text="Estado" />
                 </columns>
             </TableView>
 

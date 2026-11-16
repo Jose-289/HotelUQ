@@ -59,8 +59,8 @@ public class ControladorMenuAdministrador {
     }
 
     @FXML
-    public void abrirGestionPromociones(javafx.scene.input.MouseEvent event) {
-        System.out.println("Abriendo gestión de promociones...");
+    public void abrirGestionPromociones(javafx.scene.input.MouseEvent event) throws IOException {
+        cambiarEscena(event, "/edu/hoteluq/Vistas/vistaGestionPromociones.fxml", "HotelUQ - Gestión de Promociones");
     }
 
     @FXML
