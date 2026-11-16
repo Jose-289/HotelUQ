@@ -2,6 +2,9 @@ package edu.hoteluq.servicio;
 
 import edu.hoteluq.modelo.*;
 import edu.hoteluq.patron.creacional.builder.ReservaBuilder;
+import edu.hoteluq.patron.estructural.decorator.CostoReserva;
+import edu.hoteluq.patron.estructural.decorator.ReservaBaseDecorator;
+import edu.hoteluq.patron.estructural.decorator.ServicioDecorator;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -35,8 +38,36 @@ public class ServicioReservas {
         return resultado;
     }
 
+     //Calcula el precio estimado y valida promociones usando Decorator y Strategy
+
+    public ResultadoCotizacion cotizarReserva(Habitacion habitacion, LocalDateTime entrada, LocalDateTime salida,
+                                              List<Servicio> servicios, Promocion promocion) {
+        Cotizable cotizacion = new CotizacionReserva(habitacion, entrada, salida, servicios);
+
+        // 1. Aplicar Patrón Decorator (Habitación base + Servicios adicionales)
+        CostoReserva costoDecorado = new ReservaBaseDecorator(cotizacion);
+        if (servicios != null) {
+            for (Servicio s : servicios) {
+                costoDecorado = new ServicioDecorator(costoDecorado, s);
+            }
+        }
+
+        double subtotal = costoDecorado.calcularCosto();
+        double descuento = 0.0;
+        boolean promoAplicada = false;
+
+        // 2. Aplicar Patrón Strategy (Descuento si la promoción es vigente y aplicable)
+        if (promocion != null && promocion.estaVigente() && promocion.getEstrategia().esAplicable(cotizacion)) {
+            descuento = promocion.calcularDescuento(subtotal);
+            promoAplicada = true;
+        }
+
+        double totalFinal = Math.max(0.0, subtotal - descuento);
+        return new ResultadoCotizacion(subtotal, descuento, totalFinal, promoAplicada, costoDecorado.getDescripcion());
+    }
+
     /**
-     * Crea, cobra y confirma una reserva usando el Builder y las reglas de negocio del hotel.
+     * Crea, cobra y confirma una reserva real usando el Patrón Builder.
      */
     public Reserva crearYConfirmarReserva(Cliente cliente, Habitacion habitacion,
                                           LocalDateTime entrada, LocalDateTime salida,
@@ -105,4 +136,10 @@ public class ServicioReservas {
         reserva.cancelar();
         reserva.getHabitacion().cambiarEstado(EstadoHabitacion.DISPONIBLE);
     }
+
+    /**
+     * Contenedor inmutable para devolver todos los datos de la cotización al controlador.
+     */
+    public record ResultadoCotizacion(double subtotal, double descuento, double totalFinal,
+                                      boolean promoAplicada, String descripcion) {}
 }

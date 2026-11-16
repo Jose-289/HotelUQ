@@ -5,7 +5,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Reserva {
+public class Reserva implements Cotizable{
 
     private String id;
     private Cliente cliente;
