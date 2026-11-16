@@ -5,42 +5,50 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="edu.hoteluq.controlador.ControladorRegistro"
-      alignment="CENTER"
-      spacing="10"
-      prefHeight="550.0"
-      prefWidth="600.0">
+<BorderPane prefHeight="650.0" prefWidth="1000.0" style="-fx-background-color: #1A365D;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.hoteluq.controlador.ControladorRegistro">
 
-    <padding>
-        <Insets top="30" right="30" bottom="30" left="30"/>
-    </padding>
+    <center>
+        <VBox alignment="CENTER" maxHeight="560.0" maxWidth="480.0" spacing="12.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 12px; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.25), 15, 0, 0, 6);">
+            <padding>
+                <Insets bottom="30.0" left="40.0" right="40.0" top="30.0" />
+            </padding>
 
-    <Label text="HotelUQ"/>
+            <Label style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #1A365D;" text="Registro de Cliente" />
+            <Label style="-fx-font-size: 13px; -fx-text-fill: #718096;" text="Cree su cuenta en HotelUQ" />
 
-    <Label text="Registro de cliente"/>
+            <VBox spacing="3.0">
+                <Label style="-fx-font-size: 11px; -fx-font-weight: bold; -fx-text-fill: #2D3748;" text="Documento" />
+                <TextField fx:id="campoDocumento" prefHeight="32.0" promptText="Identificación" style="-fx-background-radius: 5px; -fx-border-color: #CBD5E0; -fx-border-radius: 5px;" />
+            </VBox>
 
-    <Label text="Documento"/>
-    <TextField fx:id="campoDocumento" promptText="Ingrese su identificación"/>
+            <VBox spacing="3.0">
+                <Label style="-fx-font-size: 11px; -fx-font-weight: bold; -fx-text-fill: #2D3748;" text="Nombre completo" />
+                <TextField fx:id="campoNombre" prefHeight="32.0" promptText="Nombres y apellidos" style="-fx-background-radius: 5px; -fx-border-color: #CBD5E0; -fx-border-radius: 5px;" />
+            </VBox>
 
-    <Label text="Nombre completo"/>
-    <TextField fx:id="campoNombre" promptText="Ingrese su nombre completo"/>
+            <VBox spacing="3.0">
+                <Label style="-fx-font-size: 11px; -fx-font-weight: bold; -fx-text-fill: #2D3748;" text="Correo electrónico" />
+                <TextField fx:id="campoCorreo" prefHeight="32.0" promptText="correo@ejemplo.com" style="-fx-background-radius: 5px; -fx-border-color: #CBD5E0; -fx-border-radius: 5px;" />
+            </VBox>
 
-    <Label text="Correo electrónico"/>
-    <TextField fx:id="campoCorreo" promptText="Ingrese su correo electrónico"/>
+            <VBox spacing="3.0">
+                <Label style="-fx-font-size: 11px; -fx-font-weight: bold; -fx-text-fill: #2D3748;" text="Teléfono" />
+                <TextField fx:id="campoTelefono" prefHeight="32.0" promptText="10 dígitos" style="-fx-background-radius: 5px; -fx-border-color: #CBD5E0; -fx-border-radius: 5px;" />
+            </VBox>
 
-    <Label text="Teléfono"/>
-    <TextField fx:id="campoTelefono" promptText="Ingrese su teléfono"/>
+            <VBox spacing="3.0">
+                <Label style="-fx-font-size: 11px; -fx-font-weight: bold; -fx-text-fill: #2D3748;" text="Contraseña" />
+                <PasswordField fx:id="campoContrasenia" prefHeight="32.0" promptText="Mínimo 6 caracteres" style="-fx-background-radius: 5px; -fx-border-color: #CBD5E0; -fx-border-radius: 5px;" />
+            </VBox>
 
-    <Label text="Contraseña"/>
-    <PasswordField fx:id="campoContrasenia" promptText="Ingrese su contraseña"/>
+            <VBox spacing="8.0" style="-fx-padding: 10 0 0 0;">
+                <Button maxWidth="Infinity" onAction="#registrarCliente" prefHeight="38.0" style="-fx-background-color: #319795; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5px; -fx-cursor: hand;" text="Registrarse" />
+                <Button maxWidth="Infinity" onAction="#volverInicio" prefHeight="32.0" style="-fx-background-color: transparent; -fx-text-fill: #4A5568; -fx-cursor: hand;" text="← Volver al inicio" />
+            </VBox>
+        </VBox>
+    </center>
 
-    <Button text="Registrarse" onAction="#registrarCliente"/>
-
-    <Button text="Volver al inicio"
-            onAction="#volverInicio"/>
-
-</VBox>
+</BorderPane>
