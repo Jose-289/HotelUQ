@@ -32,105 +32,73 @@ public class Reserva {
         this.pago = null;
     }
 
-    public String getId() {
-        return id;
+    public String getId() { return id; }
+    public Cliente getCliente() { return cliente; }
+    public Habitacion getHabitacion() { return habitacion; }
+    public LocalDateTime getFechaEntrada() { return fechaEntrada; }
+    public LocalDateTime getFechaSalida() { return fechaSalida; }
+    public double getValorTotal() { return valorTotal; }
+    public EstadoReserva getEstado() { return estado; }
+    public List<Servicio> getServicios() { return servicios; }
+    public Promocion getPromocion() { return promocion; }
+    public Pago getPago() { return pago; }
+
+    public long calcularNoches() {
+        long dias = ChronoUnit.DAYS.between(fechaEntrada.toLocalDate(), fechaSalida.toLocalDate());
+        return Math.max(1, dias);
     }
 
-    public Cliente getCliente() {
-        return cliente;
-    }
-
-    public Habitacion getHabitacion() {
-        return habitacion;
-    }
-
-    public LocalDateTime getFechaEntrada() {
-        return fechaEntrada;
-    }
-
-    public LocalDateTime getFechaSalida() {
-        return fechaSalida;
-    }
-
-    public double getValorTotal() {
-        return valorTotal;
-    }
-
-    public EstadoReserva getEstado() {
-        return estado;
-    }
-
-    public List<Servicio> getServicios() {
-        return servicios;
-    }
-
-    public Promocion getPromocion() {
-        return promocion;
-    }
-
-    public Pago getPago() {
-        return pago;
-    }
-
-    public long calcularNoches(){
-        return ChronoUnit.DAYS.between(
-                fechaEntrada.toLocalDate(),
-                fechaSalida.toLocalDate()
-        );
-    }
-
-    public double calcularValorHabitacion(){
-        // Llamada polimórfica directa a calcularValor() o tarifa de la habitación
+    public double calcularValorHabitacion() {
         return habitacion.calcularValor((int) calcularNoches());
     }
 
-    public double calcularValorServicios(){
+    public double calcularValorServicios() {
         double totalServicios = 0;
-
-        for (Servicio servicio : servicios){
+        for (Servicio servicio : servicios) {
             totalServicios += servicio.getPrecio();
         }
         return totalServicios;
     }
 
-    public boolean fechasValidas(){
-        return fechaSalida.isAfter(fechaEntrada);
+    public boolean fechasValidas() {
+        return fechaSalida != null && fechaEntrada != null && fechaSalida.isAfter(fechaEntrada);
     }
 
-    public double calcularTotal(){
-        double total = calcularValorHabitacion();
+    public double calcularTotal() {
+        double total = calcularValorHabitacion() + calcularValorServicios();
 
-        total += calcularValorServicios();
-
-        if (promocion !=  null && promocion.esAplicable(this)){
+        if (promocion != null && promocion.esAplicable(this)) {
             total -= promocion.calcularDescuento(total);
         }
 
         return total;
     }
 
-    public void agregarServicio(Servicio servicio){
-        if (servicio.isDisponible()){
+    public void recalcularValorTotal() {
+        this.valorTotal = calcularTotal();
+    }
+
+    public void agregarServicio(Servicio servicio) {
+        if (servicio != null && servicio.isDisponible()) {
             servicios.add(servicio);
+            recalcularValorTotal();
         }
     }
 
-    public void aplicarPromocion(Promocion promocion){
+    public void aplicarPromocion(Promocion promocion) {
         this.promocion = promocion;
+        recalcularValorTotal();
     }
 
-    public void asignarPago(Pago pago){
+    public void asignarPago(Pago pago) {
         this.pago = pago;
     }
 
-    public void cancelar(){
+    public void cancelar() {
         estado = EstadoReserva.CANCELADA;
     }
 
-    public void confirmar(){
+    public void confirmar() {
         estado = EstadoReserva.CONFIRMADA;
     }
-
-
-
 }

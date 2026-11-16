@@ -78,7 +78,7 @@ public class ControladorGestionHabitaciones {
         // Cargar los estados en el combo de actualización
         comboNuevoEstado.setItems(FXCollections.observableArrayList(EstadoHabitacion.values()));
 
-        //Cuando seleccionen una fila de la tabla, autoseleccionar su estado actual en el combo
+        //  Cuando seleccionen una fila de la tabla, autoseleccionar su estado actual en el combo
         tablaHabitaciones.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal != null) {
                 comboNuevoEstado.setValue(newVal.getEstado());
