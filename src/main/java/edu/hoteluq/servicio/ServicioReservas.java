@@ -1,58 +1,108 @@
 package edu.hoteluq.servicio;
 
-import edu.hoteluq.modelo.EstadoPago;
-import edu.hoteluq.modelo.EstadoReserva;
-import edu.hoteluq.modelo.Habitacion;
-import edu.hoteluq.modelo.Reserva;
+import edu.hoteluq.modelo.*;
+import edu.hoteluq.patron.creacional.builder.ReservaBuilder;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class ServicioReservas {
 
-    private List<Reserva> reservas;
+    private static final ServicioReservas instancia = new ServicioReservas();
+    private final List<Reserva> reservas;
 
-    public ServicioReservas(){
-        reservas = new ArrayList<>();
+    private ServicioReservas() {
+        this.reservas = new ArrayList<>();
     }
 
-    public void agregarReserva(Reserva reserva){
-        reservas.add(reserva);
+    public static ServicioReservas getInstancia() {
+        return instancia;
     }
 
-    public boolean confirmarReserva(Reserva reserva){
-        if (estaDisponible(reserva.getHabitacion(), reserva.getFechaEntrada(), reserva.getFechaSalida())
-                && reserva.getPago() != null && reserva.getPago().getEstado() == EstadoPago.APROBADO) {
+    public List<Reserva> obtenerTodasReservas() {
+        return List.copyOf(reservas);
+    }
 
-            reserva.confirmar();
-            return true;
+    public List<Reserva> obtenerReservasPorCliente(Cliente cliente) {
+        List<Reserva> resultado = new ArrayList<>();
+        for (Reserva r : reservas) {
+            if (r.getCliente().getId().equals(cliente.getId())) {
+                resultado.add(r);
+            }
+        }
+        return resultado;
+    }
 
+    /**
+     * Crea, cobra y confirma una reserva usando el Builder y las reglas de negocio del hotel.
+     */
+    public Reserva crearYConfirmarReserva(Cliente cliente, Habitacion habitacion,
+                                          LocalDateTime entrada, LocalDateTime salida,
+                                          List<Servicio> servicios, Promocion promocion) {
+
+        if (!habitacion.estaDisponible() && habitacion.getEstado() == EstadoHabitacion.MANTENIMIENTO) {
+            throw new IllegalStateException("La habitación se encuentra en mantenimiento y no puede reservarse.");
         }
 
-        return false;
+        if (!estaDisponible(habitacion, entrada, salida)) {
+            throw new IllegalStateException("La habitación " + habitacion.getNumero() + " ya está reservada en ese rango de fechas.");
+        }
+
+        // Construcción mediante el Patrón Builder
+        Reserva reserva = new ReservaBuilder()
+                .paraCliente(cliente)
+                .enHabitacion(habitacion)
+                .conFechas(entrada, salida)
+                .agregarServicios(servicios)
+                .conPromocion(promocion)
+                .build();
+
+        // Procesar pago con la tarjeta virtual del cliente
+        double totalAPagar = reserva.getValorTotal();
+        Pago pago = new Pago(
+                "PAG-" + UUID.randomUUID().toString().substring(0, 6).toUpperCase(),
+                LocalDateTime.now(),
+                totalAPagar,
+                EstadoPago.PENDIENTE,
+                reserva
+        );
+
+        pago.procesar();
+
+        if (pago.getEstado() != EstadoPago.APROBADO) {
+            throw new IllegalStateException("Pago rechazado: la tarjeta virtual está inactiva o no tiene saldo suficiente ($" + totalAPagar + ").");
+        }
+
+        reserva.confirmar();
+        habitacion.cambiarEstado(EstadoHabitacion.OCUPADA);
+        reservas.add(reserva);
+
+        return reserva;
     }
 
-    public boolean estaDisponible(Habitacion habitacion, LocalDateTime fechaEntrada,
-                                  LocalDateTime fechaSalida){
-
-        for (Reserva reserva : reservas){
-
-            if (reserva.getHabitacion().equals(habitacion)){
-
-                if (reserva.getEstado() != EstadoReserva.CANCELADA){
-
+    public boolean estaDisponible(Habitacion habitacion, LocalDateTime fechaEntrada, LocalDateTime fechaSalida) {
+        for (Reserva reserva : reservas) {
+            if (reserva.getHabitacion().getNumero().equalsIgnoreCase(habitacion.getNumero())) {
+                if (reserva.getEstado() != EstadoReserva.CANCELADA) {
                     if (fechaEntrada.isBefore(reserva.getFechaSalida())
-                            && fechaSalida.isAfter(reserva.getFechaEntrada())){
-
+                            && fechaSalida.isAfter(reserva.getFechaEntrada())) {
                         return false;
                     }
                 }
-
             }
         }
-
         return true;
     }
 
+    public void cancelarReservaPorHotel(Reserva reserva) {
+        if (reserva == null || reserva.getEstado() == EstadoReserva.CANCELADA) {
+            throw new IllegalStateException("La reserva no es válida o ya fue cancelada.");
+        }
+        ServicioReembolsos servicioReembolsos = new ServicioReembolsos();
+        servicioReembolsos.procesarReembolso(reserva, new ReembolsoHotel());
+        reserva.cancelar();
+        reserva.getHabitacion().cambiarEstado(EstadoHabitacion.DISPONIBLE);
+    }
 }
