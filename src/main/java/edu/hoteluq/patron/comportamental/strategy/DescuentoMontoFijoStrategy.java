@@ -1,6 +1,6 @@
 package edu.hoteluq.patron.comportamental.strategy;
 
-import edu.hoteluq.modelo.Reserva;
+import edu.hoteluq.modelo.Cotizable;
 
 public class DescuentoMontoFijoStrategy implements EstrategiaDescuento {
     private final double montoDescuento;
@@ -12,9 +12,9 @@ public class DescuentoMontoFijoStrategy implements EstrategiaDescuento {
     }
 
     @Override
-    public boolean esAplicable(Reserva reserva) {
-        if (reserva == null) return false;
-        double base = reserva.calcularValorHabitacion() + reserva.calcularValorServicios();
+    public boolean esAplicable(Cotizable cotizable) {
+        if (cotizable == null) return false;
+        double base = cotizable.calcularValorHabitacion() + cotizable.calcularValorServicios();
         return base >= montoMinimoCompra;
     }
 

@@ -1,9 +1,9 @@
 package edu.hoteluq.patron.comportamental.strategy;
 
-import edu.hoteluq.modelo.Reserva;
+import edu.hoteluq.modelo.Cotizable;
 
 public interface EstrategiaDescuento {
-    boolean esAplicable(Reserva reserva);
+    boolean esAplicable(Cotizable cotizable);
     double calcularDescuento(double subtotal);
     String getNombreEstrategia();
 }

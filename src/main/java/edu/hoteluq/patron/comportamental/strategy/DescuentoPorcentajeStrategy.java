@@ -1,6 +1,6 @@
 package edu.hoteluq.patron.comportamental.strategy;
 
-import edu.hoteluq.modelo.Reserva;
+import edu.hoteluq.modelo.Cotizable;
 
 public class DescuentoPorcentajeStrategy implements EstrategiaDescuento {
     private final double porcentaje;
@@ -12,8 +12,8 @@ public class DescuentoPorcentajeStrategy implements EstrategiaDescuento {
     }
 
     @Override
-    public boolean esAplicable(Reserva reserva) {
-        return reserva != null && reserva.calcularNoches() >= minimoNoches;
+    public boolean esAplicable(Cotizable cotizable) {
+        return cotizable != null && cotizable.calcularNoches() >= minimoNoches;
     }
 
     @Override
