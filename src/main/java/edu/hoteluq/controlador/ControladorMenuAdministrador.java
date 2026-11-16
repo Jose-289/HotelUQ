@@ -48,10 +48,9 @@ public class ControladorMenuAdministrador {
     public void abrirGestionHabitaciones(javafx.scene.input.MouseEvent event) throws IOException {
         cambiarEscena(event, "/edu/hoteluq/Vistas/vistaGestionHabitaciones.fxml", "HotelUQ - Gestión de Habitaciones");
     }
-
     @FXML
-    public void abrirGestionReservas(javafx.scene.input.MouseEvent event) {
-        System.out.println("Abriendo gestión de reservas...");
+    public void abrirGestionReservas(javafx.scene.input.MouseEvent event) throws IOException {
+        cambiarEscena(event, "/edu/hoteluq/Vistas/vistaGestionReservas.fxml", "HotelUQ - Gestión de Reservas");
     }
 
     @FXML
