@@ -32,10 +32,17 @@
     <!-- FORMULARIO DE REGISTRO RÁPIDO -->
     <HBox alignment="CENTER" spacing="10.0" style="-fx-background-color: white; -fx-padding: 15; -fx-background-radius: 8;">
         <TextField fx:id="campoNumero" promptText="N° Habitación" prefWidth="120.0" />
-        <ComboBox fx:id="comboFabricas" promptText="Seleccionar Tipo (Fábrica)" prefWidth="180.0" />
+        <ComboBox fx:id="comboFabricas" promptText="Seleccionar Tipo (Habitación)" prefWidth="180.0" />
         <ComboBox fx:id="comboEstado" promptText="Estado inicial" prefWidth="140.0" />
         <Button onAction="#registrarHabitacion" style="-fx-background-color: #319795; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" text="Registrar Habitación" />
         <Button onAction="#eliminarHabitacion" style="-fx-background-color: #E53E3E; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" text="Eliminar Seleccionada" />
+    </HBox>
+
+    <!-- PANEL DE CAMBIO DE ESTADO -->
+    <HBox alignment="CENTER_LEFT" spacing="10.0" style="-fx-background-color: white; -fx-padding: 12; -fx-background-radius: 8;">
+        <Label text="Cambiar estado de selección:" style="-fx-font-weight: bold; -fx-text-fill: #2D3748;" />
+        <ComboBox fx:id="comboNuevoEstado" promptText="Nuevo estado" prefWidth="150.0" />
+        <Button text="Actualizar Estado" onAction="#cambiarEstadoHabitacion" style="-fx-background-color: #2B6CB0; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" />
     </HBox>
 
     <!-- BOTÓN VOLVER -->
@@ -44,3 +51,4 @@
     </HBox>
 
 </VBox>
+

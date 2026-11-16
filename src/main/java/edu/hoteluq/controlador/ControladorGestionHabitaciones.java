@@ -41,8 +41,11 @@ public class ControladorGestionHabitaciones {
     private ComboBox<FabricaHabitacion> comboFabricas;
     @FXML
     private ComboBox<EstadoHabitacion> comboEstado;
+    @FXML
+    private ComboBox<EstadoHabitacion> comboNuevoEstado;
 
     private final ServicioHabitaciones servicioHabitaciones = ServicioHabitaciones.getInstancia();
+
 
     @FXML
     public void initialize() {
@@ -72,6 +75,16 @@ public class ControladorGestionHabitaciones {
         comboEstado.setValue(EstadoHabitacion.DISPONIBLE);
 
         cargarHabitaciones();
+        // Cargar los estados en el combo de actualización
+        comboNuevoEstado.setItems(FXCollections.observableArrayList(EstadoHabitacion.values()));
+
+        //Cuando seleccionen una fila de la tabla, autoseleccionar su estado actual en el combo
+        tablaHabitaciones.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal != null) {
+                comboNuevoEstado.setValue(newVal.getEstado());
+            }
+        });
+
     }
 
     private void cargarHabitaciones() {
@@ -134,5 +147,29 @@ public class ControladorGestionHabitaciones {
         alerta.setHeaderText(null);
         alerta.setContentText(mensaje);
         alerta.showAndWait();
+    }
+
+    @FXML
+    public void cambiarEstadoHabitacion() {
+        Habitacion seleccionada = tablaHabitaciones.getSelectionModel().getSelectedItem();
+        EstadoHabitacion nuevoEstado = comboNuevoEstado.getValue();
+
+        if (seleccionada == null) {
+            mostrarAlerta(Alert.AlertType.WARNING, "Selección requerida", "Seleccione una habitación de la tabla.");
+            return;
+        }
+
+        if (nuevoEstado == null) {
+            mostrarAlerta(Alert.AlertType.WARNING, "Estado requerido", "Seleccione el nuevo estado para la habitación.");
+            return;
+        }
+
+        // Cambiar el estado usando el método del dominio
+        seleccionada.cambiarEstado(nuevoEstado);
+
+        // Refrescar la tabla para que se vea el cambio visualmente
+        tablaHabitaciones.refresh();
+
+        mostrarAlerta(Alert.AlertType.INFORMATION, "Actualizado", "El estado de la habitación " + seleccionada.getNumero() + " cambió a " + nuevoEstado);
     }
 }

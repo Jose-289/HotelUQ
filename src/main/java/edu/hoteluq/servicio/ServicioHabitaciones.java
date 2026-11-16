@@ -47,7 +47,7 @@ public class ServicioHabitaciones {
      */
     public void registrarHabitacion(String numero, FabricaHabitacion fabrica, EstadoHabitacion estado) {
         if (fabrica == null) {
-            throw new IllegalArgumentException("Debe seleccionar una fábrica de habitación válida.");
+            throw new IllegalArgumentException("Debe seleccionar un tipo de habitación válido.");
         }
         if (repositorioHabitaciones.buscarPorNumero(numero) != null) {
             throw new RuntimeException("Ya existe una habitación registrada con el número " + numero);
