@@ -8,5 +8,6 @@ module edu.hoteluq {
     exports edu.hoteluq.app;
     exports edu.hoteluq.controlador;
     opens edu.hoteluq.controlador to javafx.fxml;
+    opens edu.hoteluq.modelo to javafx.base;
 
 }
