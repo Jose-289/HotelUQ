@@ -5,33 +5,35 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="edu.hoteluq.controlador.ControladorInicioSesion"
-      alignment="CENTER"
-      spacing="10"
-      prefHeight="400.0"
-      prefWidth="600.0">
+<BorderPane prefHeight="650.0" prefWidth="1000.0" style="-fx-background-color: #1A365D;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.hoteluq.controlador.ControladorInicioSesion">
 
-    <padding>
-        <Insets top="30" right="30" bottom="30" left="30"/>
-    </padding>
+    <center>
+        <VBox alignment="CENTER" maxHeight="460.0" maxWidth="450.0" spacing="15.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 12px; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.25), 15, 0, 0, 6);">
+            <padding>
+                <Insets bottom="35.0" left="40.0" right="40.0" top="35.0" />
+            </padding>
 
-    <Label text="HotelUQ"/>
+            <Label style="-fx-font-size: 26px; -fx-font-weight: bold; -fx-text-fill: #1A365D;" text="HotelUQ" />
+            <Label style="-fx-font-size: 14px; -fx-text-fill: #718096;" text="Ingrese sus credenciales para continuar" />
 
-    <Label text="Inicio de sesión"/>
+            <VBox spacing="5.0" style="-fx-padding: 10 0 0 0;">
+                <Label style="-fx-font-weight: bold; -fx-text-fill: #2D3748;" text="Correo electrónico" />
+                <TextField fx:id="campoCorreo" prefHeight="38.0" promptText="admin@hoteluq.com" style="-fx-background-radius: 6px; -fx-border-color: #CBD5E0; -fx-border-radius: 6px;" />
+            </VBox>
 
-    <Label text="Correo electrónico"/>
-    <TextField fx:id="campoCorreo" promptText="Ingrese su correo electrónico"/>
+            <VBox spacing="5.0">
+                <Label style="-fx-font-weight: bold; -fx-text-fill: #2D3748;" text="Contraseña" />
+                <PasswordField fx:id="campoContrasenia" prefHeight="38.0" promptText="••••••••" style="-fx-background-radius: 6px; -fx-border-color: #CBD5E0; -fx-border-radius: 6px;" />
+            </VBox>
 
-    <Label text="Contraseña"/>
-    <PasswordField fx:id="campoContrasenia" promptText="Ingrese su contraseña"/>
+            <VBox spacing="10.0" style="-fx-padding: 15 0 0 0;">
+                <Button maxWidth="Infinity" onAction="#iniciarSesion" prefHeight="42.0" style="-fx-background-color: #319795; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-background-radius: 6px; -fx-cursor: hand;" text="Ingresar" />
+                <Button maxWidth="Infinity" onAction="#volverInicio" prefHeight="38.0" style="-fx-background-color: transparent; -fx-text-fill: #4A5568; -fx-cursor: hand;" text="← Volver al inicio" />
+            </VBox>
+        </VBox>
+    </center>
 
-    <Button text="Ingresar" onAction="#iniciarSesion"/>
-
-    <Button text="Volver al inicio"
-            onAction="#volverInicio"/>
-
-</VBox>
+</BorderPane>

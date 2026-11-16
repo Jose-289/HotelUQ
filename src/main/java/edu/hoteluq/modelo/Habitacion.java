@@ -1,37 +1,37 @@
 package edu.hoteluq.modelo;
 
-import java.time.LocalDate;
+public abstract class Habitacion {
+    protected String numero;
+    protected EstadoHabitacion estado;
 
-public class Habitacion {
-
-    private String numero;
-    private TipoHabitacion tipo;
-    private EstadoHabitacion estado;
-
-    public Habitacion(String numero, TipoHabitacion tipo, EstadoHabitacion estado) {
+    public Habitacion(String numero, EstadoHabitacion estado) {
         this.numero = numero;
-        this.tipo = tipo;
-        this.estado = estado;
+        this.estado = estado != null ? estado : EstadoHabitacion.DISPONIBLE;
     }
 
     public String getNumero() {
         return numero;
     }
 
-    public TipoHabitacion getTipo() {
-        return tipo;
-    }
-
     public EstadoHabitacion getEstado() {
         return estado;
     }
 
-    public boolean estaDisponible(){
+    public boolean estaDisponible() {
         return estado == EstadoHabitacion.DISPONIBLE;
     }
 
-    public void cambiarEstado(EstadoHabitacion estado){
+    public void cambiarEstado(EstadoHabitacion estado) {
         this.estado = estado;
     }
 
+    // Métodos abstractos que cada tipo concreto debe implementar (Polimorfismo puro)
+    public abstract String getNombreTipo();
+    public abstract String getDescripcion();
+    public abstract int getCapacidad();
+    public abstract double getTarifaNoche();
+
+    public double calcularValor(int noches) {
+        return getTarifaNoche() * noches;
+    }
 }

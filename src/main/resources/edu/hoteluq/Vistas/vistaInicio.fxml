@@ -3,26 +3,30 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="edu.hoteluq.controlador.ControladorInicio"
-      alignment="CENTER"
-      spacing="20"
-      prefHeight="400.0"
-      prefWidth="600.0">
+<BorderPane prefHeight="650.0" prefWidth="1000.0" style="-fx-background-color: #1A365D;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.hoteluq.controlador.ControladorInicio">
 
-    <padding>
-        <Insets top="30" right="30" bottom="30" left="30"/>
-    </padding>
+    <center>
+        <VBox alignment="CENTER" maxHeight="420.0" maxWidth="480.0" spacing="25.0" style="-fx-background-color: #FFFFFF; -fx-background-radius: 12px; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.25), 15, 0, 0, 6);">
+            <padding>
+                <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
+            </padding>
 
-    <Label text="HotelUQ"/>
+            <VBox alignment="CENTER" spacing="8.0">
+                <Label style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #1A365D;" text="HotelUQ" />
+                <Label style="-fx-font-size: 14px; -fx-text-fill: #718096;" text="Sistema Integral de Gestión Hotelera" />
+            </VBox>
 
-    <Label text="Bienvenido al sistema de gestión del HotelUQ"/>
+            <VBox alignment="CENTER" spacing="15.0" style="-fx-padding: 10 0 0 0;">
+                <Button maxWidth="280.0" onAction="#abrirInicioSesion" prefHeight="45.0" style="-fx-background-color: #2B6CB0; -fx-text-fill: white; -fx-font-size: 15px; -fx-font-weight: bold; -fx-background-radius: 6px; -fx-cursor: hand;" text="Iniciar sesión" />
 
-    <Button text="Iniciar sesión" onAction="#abrirInicioSesion"/>
+                <Button maxWidth="280.0" onAction="#abrirRegistro" prefHeight="45.0" style="-fx-background-color: #EDF2F7; -fx-text-fill: #2D3748; -fx-font-size: 15px; -fx-font-weight: bold; -fx-background-radius: 6px; -fx-cursor: hand;" text="Registrarse como Cliente" />
+            </VBox>
 
-    <Button text="Registrarse" onAction="#abrirRegistro"/>
+            <Label style="-fx-font-size: 11px; -fx-text-fill: #A0AEC0; -fx-padding: 15 0 0 0;" text="Programación II • Universidad del Quindío" />
+        </VBox>
+    </center>
 
-</VBox>
+</BorderPane>
