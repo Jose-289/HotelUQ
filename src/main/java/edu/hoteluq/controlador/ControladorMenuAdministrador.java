@@ -64,8 +64,8 @@ public class ControladorMenuAdministrador {
     }
 
     @FXML
-    public void abrirGenerarReportes(javafx.scene.input.MouseEvent event) {
-        System.out.println("Abriendo reportes...");
+    public void abrirGenerarReportes(javafx.scene.input.MouseEvent event) throws IOException {
+        cambiarEscena(event, "/edu/hoteluq/Vistas/vistaGestionReportes.fxml", "HotelUQ - Gestión de Reportes");
     }
 
     public void cerrarSesion(ActionEvent evento) throws IOException {

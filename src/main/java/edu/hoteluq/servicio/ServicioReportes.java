@@ -1,87 +1,64 @@
 package edu.hoteluq.servicio;
 
-import edu.hoteluq.modelo.Reserva;
+import edu.hoteluq.modelo.*;
+import edu.hoteluq.patron.estructural.adapter.GeneradorReporte;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
 public class ServicioReportes {
 
-    private final ServicioReservas servicioReservas;
+    private static final ServicioReportes instancia = new ServicioReportes();
 
-    public ServicioReportes(){
-        this.servicioReservas = ServicioReservas.getInstancia();
+    private final ServicioHabitaciones servicioHabitaciones = ServicioHabitaciones.getInstancia();
+    private final ServicioUsuarios servicioUsuarios = ServicioUsuarios.getInstancia();
+    private final ServicioReservas servicioReservas = ServicioReservas.getInstancia();
+
+    private ServicioReportes() {}
+
+    public static ServicioReportes getInstancia() {
+        return instancia;
     }
 
-    public List<Reserva> obtenerReservas(){
-        return servicioReservas.obtenerTodasReservas();
+    public DatosReporte recopilarDatosActuales() {
+        List<Habitacion> habitaciones = servicioHabitaciones.obtenerTodasHabitaciones();
+        int disponibles = (int) habitaciones.stream()
+                .filter(h -> h.getEstado() == EstadoHabitacion.DISPONIBLE).count();
+        int ocupadas = (int) habitaciones.stream()
+                .filter(h -> h.getEstado() == EstadoHabitacion.OCUPADA).count();
+
+        int clientes = (int) servicioUsuarios.obtenerUsuarios().stream()
+                .filter(u -> u instanceof Cliente).count();
+
+        List<Reserva> reservas = servicioReservas.obtenerTodasReservas();
+        int confirmadas = (int) reservas.stream()
+                .filter(r -> r.getEstado() == EstadoReserva.CONFIRMADA).count();
+        double ingresos = reservas.stream()
+                .filter(r -> r.getEstado() == EstadoReserva.CONFIRMADA)
+                .mapToDouble(Reserva::getValorTotal)
+                .sum();
+
+        return new DatosReporte(
+                "Reporte General de Operaciones - HotelUQ",
+                habitaciones.size(),
+                disponibles,
+                ocupadas,
+                clientes,
+                confirmadas,
+                ingresos,
+                reservas
+        );
     }
 
-    public String generarReporteReservas(){
-
-        StringBuilder reporte = new StringBuilder();
-
-        reporte.append("========================================\n");
-        reporte.append("          REPORTE DE RESERVAS\n");
-        reporte.append("               HotelUQ\n");
-        reporte.append("========================================\n\n");
-
-        List<Reserva> reservas = obtenerReservas();
-
-        if (reservas.isEmpty()){
-            reporte.append("No existen reservas registradas.\n");
-            return reporte.toString();
+    public void exportarReporte(GeneradorReporte adaptador, File archivoDestino) throws IOException {
+        if (adaptador == null) {
+            throw new IllegalArgumentException("Debe seleccionar un formato de exportación.");
         }
-
-        for (Reserva reserva : reservas){
-
-            reporte.append("Reserva: ")
-                    .append(reserva.getId())
-                    .append("\n");
-
-            reporte.append("Cliente: ")
-                    .append(reserva.getCliente().getNombre())
-                    .append("\n");
-
-            reporte.append("Habitación: ")
-                    .append(reserva.getHabitacion().getNumero())
-                    .append("\n");
-
-            reporte.append("Entrada: ")
-                    .append(reserva.getFechaEntrada())
-                    .append("\n");
-
-            reporte.append("Salida: ")
-                    .append(reserva.getFechaSalida())
-                    .append("\n");
-
-            reporte.append("Estado: ")
-                    .append(reserva.getEstado())
-                    .append("\n");
-
-            reporte.append("Valor total: $")
-                    .append(reserva.getValorTotal())
-                    .append("\n");
-
-            reporte.append("----------------------------------------\n");
+        if (archivoDestino == null) {
+            throw new IllegalArgumentException("Debe indicar una ruta válida para el archivo.");
         }
-
-        return reporte.toString();
+        DatosReporte datos = recopilarDatosActuales();
+        adaptador.generarArchivo(datos, archivoDestino);
     }
-
-    public File guardarReporteTXT() throws IOException{
-
-        String contenido = generarReporteReservas();
-
-        File archivo = new File("reporte_reservas.txt");
-
-        try (FileWriter escritor = new FileWriter(archivo)) {
-            escritor.write(contenido);
-        }
-
-        return archivo;
-    }
-
 }

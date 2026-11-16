@@ -1,37 +1,115 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<VBox xmlns="http://javafx.com/javafx/21"
-      xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="edu.hoteluq.controlador.ControladorMenuCliente"
-      alignment="CENTER"
-      spacing="15">
+<BorderPane prefHeight="700.0" prefWidth="1050.0" style="-fx-background-color: #f4f6f9;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.hoteluq.controlador.ControladorMenuCliente">
 
-    <padding>
-        <Insets top="30" right="30" bottom="30" left="30"/>
-    </padding>
+    <!-- BARRA SUPERIOR -->
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="20.0" style="-fx-background-color: #1A365D; -fx-padding: 15 25;">
+            <Label fx:id="lblBienvenidaCliente" style="-fx-text-fill: white; -fx-font-size: 19px; -fx-font-weight: bold;" text="Bienvenido a HotelUQ" />
+            <HBox HBox.hgrow="ALWAYS" />
+            <Label fx:id="lblResumenHeader" style="-fx-text-fill: #90CDF4; -fx-font-size: 14px; -fx-font-weight: bold;" text="Saldo: $0 | Nivel: BRONCE (0 pts)" />
+            <Button onAction="#cerrarSesion" style="-fx-background-color: #E53E3E; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" text="Cerrar Sesión" />
+        </HBox>
+    </top>
 
-    <Label text="HotelUQ"/>
+    <!-- CONTENIDO PRINCIPAL POR PESTAÑAS -->
+    <center>
+        <TabPane tabClosingPolicy="UNAVAILABLE">
 
-    <Label text="Menú del cliente"/>
+            <!-- PESTAÑA 1: NUEVA RESERVA -->
+            <Tab text="Reservar Habitación">
+                <VBox spacing="15.0">
+                    <padding><Insets bottom="20" left="25" right="25" top="20" /></padding>
+                    <VBox spacing="12.0" style="-fx-background-color: white; -fx-padding: 18; -fx-background-radius: 8;">
+                        <Label style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #2D3748;" text="Configura tu Estadía" />
+                        <HBox spacing="12.0">
+                            <ComboBox fx:id="comboHabitaciones" prefWidth="280.0" promptText="Seleccionar Habitación Disponible" />
+                            <DatePicker fx:id="dateEntrada" prefWidth="160.0" promptText="Fecha Entrada" />
+                            <DatePicker fx:id="dateSalida" prefWidth="160.0" promptText="Fecha Salida" />
+                        </HBox>
+                        <HBox spacing="15.0">
+                            <VBox spacing="6.0">
+                                <HBox spacing="8.0">
+                                    <ComboBox fx:id="comboServicios" prefWidth="230.0" promptText="Agregar Servicio Extra" />
+                                    <Button onAction="#agregarServicio" style="-fx-background-color: #805AD5; -fx-text-fill: white; -fx-font-weight: bold;" text="+ Añadir" />
+                                    <Button onAction="#limpiarServicios" text="Limpiar" />
+                                </HBox>
+                                <ListView fx:id="listaServicios" prefHeight="85.0" prefWidth="370.0" />
+                            </VBox>
+                            <VBox spacing="10.0">
+                                <ComboBox fx:id="comboPromociones" prefWidth="280.0" promptText="Promoción Disponible (Opcional)" />
+                                <Label fx:id="lblCotizacion" style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #2B6CB0;" text="Total estimado: $0.0" />
+                                <Button onAction="#confirmarReserva" style="-fx-background-color: #38A169; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-padding: 9 20; -fx-cursor: hand;" text="Confirmar y Pagar con Tarjeta Virtual" />
+                            </VBox>
+                        </HBox>
+                    </VBox>
+                </VBox>
+            </Tab>
 
-    <Label fx:id="textoBienvenida"
-           text="Bienvenido"/>
+            <!-- PESTAÑA 2: MIS RESERVAS -->
+            <Tab text="Mis Reservas">
+                <VBox spacing="12.0">
+                    <padding><Insets bottom="20" left="25" right="25" top="20" /></padding>
+                    <TableView fx:id="tablaMisReservas" VBox.vgrow="ALWAYS">
+                        <columns>
+                            <TableColumn fx:id="colResId" prefWidth="110.0" text="Código" />
+                            <TableColumn fx:id="colResHab" prefWidth="190.0" text="Habitación" />
+                            <TableColumn fx:id="colResFechas" prefWidth="190.0" text="Entrada → Salida" />
+                            <TableColumn fx:id="colResServicios" prefWidth="220.0" text="Servicios" />
+                            <TableColumn fx:id="colResTotal" prefWidth="130.0" text="Total Pagado" />
+                            <TableColumn fx:id="colResEstado" prefWidth="120.0" text="Estado" />
+                        </columns>
+                    </TableView>
+                </VBox>
+            </Tab>
 
-    <Button text="Reservar habitación"/>
+            <!-- PESTAÑA 3: TARJETA VIRTUAL Y FIDELIZACIÓN -->
+            <Tab text="Tarjeta Virtual y Puntos">
+                <HBox spacing="20.0">
+                    <padding><Insets bottom="20" left="25" right="25" top="20" /></padding>
 
-    <Button text="Mis reservas"/>
+                    <!-- BLOQUE BILLETERA (PROXY) -->
+                    <VBox spacing="12.0" style="-fx-background-color: white; -fx-padding: 18; -fx-background-radius: 8;" HBox.hgrow="ALWAYS">
+                        <Label style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #1A365D;" text="Tarjeta Virtual Protegida (Proxy)" />
+                        <Label fx:id="lblSaldoTarjeta" style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #38A169;" text="Saldo Disponible: $0.0" />
+                        <HBox spacing="10.0">
+                            <TextField fx:id="campoMontoRecarga" prefWidth="180.0" promptText="Monto a recargar ($)" />
+                            <Button onAction="#recargarTarjeta" style="-fx-background-color: #2B6CB0; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" text="Recargar Saldo" />
+                        </HBox>
+                        <Label style="-fx-font-weight: bold; -fx-text-fill: #4A5568;" text="Auditoría de Movimientos de Billetera:" />
+                        <ListView fx:id="listaAuditoriaBilletera" VBox.vgrow="ALWAYS" />
+                    </VBox>
 
-    <Button text="Solicitar cancelación"/>
+                    <!-- BLOQUE PROGRAMA DE PUNTOS (STATE) -->
+                    <VBox spacing="12.0" style="-fx-background-color: white; -fx-padding: 18; -fx-background-radius: 8;" HBox.hgrow="ALWAYS">
+                        <Label style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #1A365D;" text="Programa de Fidelización (State)" />
+                        <Label fx:id="lblNivelFidelizacion" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #DD6B20;" text="Nivel Actual: BRONCE" />
+                        <Label fx:id="lblPuntosDisponibles" style="-fx-font-size: 15px; -fx-text-fill: #2D3748;" text="Puntos Acumulados: 0 pts" />
+                        <Label fx:id="lblBeneficioNivel" style="-fx-font-size: 13px; -fx-text-fill: #718096;" text="Multiplicador: 1.0x | Bono canje: 0%" />
+                        <Separator />
+                        <Label style="-fx-font-weight: bold;" text="Canjear Puntos por Saldo en Tarjeta (1 pt = $50 + bono):" />
+                        <HBox spacing="10.0">
+                            <TextField fx:id="campoPuntosCanje" prefWidth="160.0" promptText="Cantidad de puntos" />
+                            <Button onAction="#canjearPuntos" style="-fx-background-color: #D69E2E; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand;" text="Canjear Puntos" />
+                        </HBox>
+                    </VBox>
+                </HBox>
+            </Tab>
 
-    <Button text="Consultar saldo"/>
+            <!-- PESTAÑA 4: NOTIFICACIONES (OBSERVER) -->
+            <Tab text="Notificaciones">
+                <VBox spacing="12.0">
+                    <padding><Insets bottom="20" left="25" right="25" top="20" /></padding>
+                    <Label style="-fx-font-size: 15px; -fx-font-weight: bold; -fx-text-fill: #2D3748;" text="Actividad Reciente y Alertas (Observer)" />
+                    <ListView fx:id="listaNotificaciones" VBox.vgrow="ALWAYS" />
+                </VBox>
+            </Tab>
 
-    <Button text="Consultar puntos"/>
+        </TabPane>
+    </center>
 
-    <Button text="Cerrar sesión"/>
-
-</VBox>
+</BorderPane>
